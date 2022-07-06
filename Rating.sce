@@ -17,7 +17,7 @@ while 1 then
         mprintf("Valores invalidos\n");
     end
 end
-//clc
+clc
 for c = 1:5
     for i = 1:unit
         if factor(c) > 0 then
@@ -31,7 +31,7 @@ for c = 1:5
             end
         end
     end
-    //clc
+    clc
 end
 
 while 1 then
@@ -50,6 +50,32 @@ for c = 1:5
     out = out + (aux / unit);
 end
 out = out + ratings(6);
-//clc
 
-mprintf("Calificacion final: %f \n", out)
+sout = "ZZZ con toda la intención de ofender"
+if out > 93 then
+    sout = "A";
+elseif out > 90 then
+    sout = "A-";
+elseif out > 87 then
+    sout = "B+";
+elseif out > 83 then
+    sout = "B";
+elseif out > 80 then
+    sout = "C+";
+elseif out > 77 then
+    sout = "C";
+elseif out > 73 then
+    sout = "D+";
+elseif out > 70 then
+    sout = "D";
+elseif out > 67 then
+    sout = "D-";
+elseif out > 63 then
+    sout = "E";
+elseif out > 60 then
+    sout = "E-";
+elseif out > 57 then
+    sout = "F";
+end
+
+mprintf("%s\nCalificacion final: %f \n", sout, out)
