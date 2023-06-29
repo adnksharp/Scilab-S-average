@@ -84,7 +84,7 @@ end
 
 for i = 1:n,
 	mprintf("\n\n\nAlumno: %s\n", name(i));
-	mprintf("Calificación final: %g\n\nfact", a(i));
+	mprintf("Calificación final: %g\n\nfact\t", a(i));
 	for j = 1:u,
 		mprintf("\tU%d", j);
 	end
