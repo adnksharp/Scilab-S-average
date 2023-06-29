@@ -1,81 +1,103 @@
-out = 0;
-f = [ "Trabajos" "Tareas" "Proyectos" "Cuestionarios" "Asistencia" "Examen final" ]
+m = 0;
+n = 0;
+u = 0;
+fact = [];
+val = []
+average = [];
+class = [];
+name = [];
 
-mprintf("\n\t\tDeterminar calificiones\n\tFactores (0-100)\t|\tCalificaciónes (0-100)\n");
-unit = strtod(input("Unidades: ", "s"));
-factor = zeros(unit)
-ratings = zeros(6, unit)
- 
-while 1 then
-    for i = 1: 6
-        str = f(i) + ": ";
-        factor(i) = strtod(input(str, "s"));
-    end
-    if factor(1) + factor(2) + factor(3) + factor(4) + factor(5) + factor(6) == 100 then
-        break
-    else
-        mprintf("Valores invalidos\n");
-    end
-end
-clc
-for c = 1:5
-    for i = 1:unit
-        if factor(c) > 0 then
-            while 1 then
-                str = "Calificación " + string(i) + " de "+ f(c) + ": "
-                ratings(c,i) = strtod(input(str, "s"))
-                if ratings(c,i) >= 0  & ratings(c,i) <= 100 then
-                    ratings(c,i) = ratings(c,i) * factor(c) / 100;
-                    break
-                end
-            end
-        end
-    end
-    clc
+mprintf("\tPromedio de notas de los alumnos\n\nCantidad de factores a considerar:");
+m = strtod(input("--", "s"));
+if m < 1 then
+	mprintf("Error: la cantidad de factores debe ser mayor o igual a 1\n");
+	return;
 end
 
-while 1 then
-    ratings(6) = strtod(input("Calificación del examen final: ", "s"));
-    if ratings(6) >= 0  & ratings(6) <= 100 then
-        ratings(6) = ratings(6) * factor(6) / 100;
-        break
-    end
+
+for i = 1:m,
+	mprintf("Ingrese el nombre del factor %d considerado: ", i);
+	fact(i) = input("--", "s");
+end
+for i = 1:m,
+	while 1,
+		mprintf("Ingrese el peso del factor %s: ", fact(i));
+		val(i) = strtod(input("--", "s"));
+		if val(i) <= 0 then
+			mprintf("Error: el peso debe ser mayor o igual a 0\n");
+		else
+			break;
+		end
+	end
 end
 
-for c = 1:5
-    aux = 0;
-    for i = 1:unit,1
-         aux = aux + ratings(c,i);
-    end
-    out = out + (aux / unit);
-end
-out = out + ratings(6);
+val = val / sum(val);
 
-sout = "ZZZ con toda la intención de ofender"
-if out > 93 then
-    sout = "A";
-elseif out > 90 then
-    sout = "A-";
-elseif out > 87 then
-    sout = "B+";
-elseif out > 83 then
-    sout = "B";
-elseif out > 80 then
-    sout = "C+";
-elseif out > 77 then
-    sout = "C";
-elseif out > 73 then
-    sout = "D+";
-elseif out > 70 then
-    sout = "D";
-elseif out > 67 then
-    sout = "D-";
-elseif out > 63 then
-    sout = "E";
-elseif out > 60 then
-    sout = "E-";
-elseif out > 57 then
-    sout = "F";
+while 1,
+	mprintf("\nIngrese el número de alumnos a considerar: ");
+	n = strtod(input("--", "s"));
+	if n < 1 then
+		mprintf("Error: el número de alumnos debe ser mayor o igual a 1\n");
+	else
+		break;
+	end
 end
 
-mprintf("%s\nCalificacion final: %f \n", sout, out)
+while 1,
+	mprintf("Ingrese el número de unidades a considerar: ");
+	u = strtod(input("--", "s"));
+	if u < 1 then
+		mprintf("Error: el número de unidades debe ser mayor o igual a 1\n");
+	else
+		break;
+	end
+end
+
+for i = 1:u,
+	for j = 1:m,
+		for k = 1:n,
+			class(i, j, k) = 0;
+		end
+	end
+end
+
+for k = 1:n,
+	mprintf("\nIngrese el nombre del alumno: ");
+	name(k) = input("--", "s");
+	for i = 1:u,
+		average(i, k) = 0;
+		for j = 1:m,
+			mprintf("Ingrese la calificación de %s (U%d): ", fact(j), i);
+			while 1,
+				class(i, j, k) = strtod(input("--", "s"));
+				if class(i, j, k) < 0 | class(i, j, k) > 10 then
+					mprintf("Error: la calificación debe ser mayor a 0 y menor o igual a 10\n");
+				else
+					break;
+				end
+			end
+			average(i, k) = average(i, k) + class(i, j, k) * val(j);
+		end	
+	end
+	a(k) = sum(average(:, k)) / u;
+end
+
+for i = 1:n,
+	mprintf("\n\n\nAlumno: %s\n", name(i));
+	mprintf("Calificación final: %g\n\nfact", a(i));
+	for j = 1:u,
+		mprintf("\tU%d", j);
+	end
+	mprintf("\n");
+	for j = 1:m,
+		mprintf("%s", fact(j));
+		for k = 1:u,
+			mprintf("\t%g", class(k, j, i));
+		end
+		mprintf("\n");
+	end
+	mprintf("total\t");
+	for j = 1:u,
+		mprintf("\t%g", average(j, i));
+	end
+end
